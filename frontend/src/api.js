@@ -1,0 +1,16 @@
+const API = "http://localhost:3000";
+
+export async function api(path, options = {}) {
+  const headers = { "Content-Type": "application/json", ...(options.headers || {}) };
+  if (options.body instanceof FormData) delete headers["Content-Type"];
+
+  const token = localStorage.getItem("token");
+  if (token) headers.Authorization = `Bearer ${token}`;
+
+  const res = await fetch(`${API}${path}`, { ...options, headers });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.message || "Request failed");
+  return data;
+}
+
+export const imageUrl = (p) => (p?.startsWith("http") ? p : p ? `${API}${p}` : "");
