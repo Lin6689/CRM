@@ -1,14 +1,43 @@
+import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { api } from "../api";
 
 export default function Layout() {
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  const { user, updateUser, logout } = useAuth();
+  const [showEdit, setShowEdit] = useState(false);
+  const [shop, setShop] = useState({ businessName: "", address: "" });
+  const [error, setError] = useState("");
 
   const handleLogout = () => {
     logout();
     navigate("/login");
   };
+
+  const openEdit = () => {
+    setShop({ businessName: user.businessName || "", address: user.address || "" });
+    setError("");
+    setShowEdit(true);
+  };
+
+  const saveShop = async (e) => {
+    e.preventDefault();
+    setError("");
+    try {
+      const updated = await api("/api/auth/me", {
+        method: "PUT",
+        body: JSON.stringify(shop),
+      });
+      updateUser(updated);
+      setShowEdit(false);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const linkClass = ({ isActive }) =>
+    `pb-2 text-sm font-medium border-b-2 ${isActive ? "border-blue-600 text-blue-600" : "border-transparent text-gray-500"}`;
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -18,33 +47,46 @@ export default function Layout() {
             <h1 className="font-bold text-lg">{user?.businessName || "Mini CRM"}</h1>
             <p className="text-xs text-gray-500">{user?.name} • {user?.email}</p>
           </div>
-          <button onClick={handleLogout} className="text-sm text-red-600 hover:underline">
-            Logout
-          </button>
+          <div className="flex gap-4 items-center">
+            <button onClick={openEdit} className="text-sm text-blue-600 hover:underline">
+              Edit Shop
+            </button>
+            <button onClick={handleLogout} className="text-sm text-red-600 hover:underline">
+              Logout
+            </button>
+          </div>
         </div>
         <nav className="max-w-6xl mx-auto px-4 flex gap-4">
-          <NavLink
-            to="/customers"
-            className={({ isActive }) =>
-              `pb-2 text-sm font-medium border-b-2 ${isActive ? "border-blue-600 text-blue-600" : "border-transparent text-gray-500"}`
-            }
-          >
-            Customers
-          </NavLink>
-          <NavLink
-            to="/products"
-            className={({ isActive }) =>
-              `pb-2 text-sm font-medium border-b-2 ${isActive ? "border-blue-600 text-blue-600" : "border-transparent text-gray-500"}`
-            }
-          >
-            Products
-          </NavLink>
+          <NavLink to="/customers" className={linkClass}>Customers</NavLink>
+          <NavLink to="/products" className={linkClass}>Products</NavLink>
+          <NavLink to="/invoices" className={linkClass}>Invoices</NavLink>
         </nav>
       </header>
 
       <main className="max-w-6xl mx-auto px-4 py-6">
         <Outlet />
       </main>
+
+      {showEdit && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <form onSubmit={saveShop} className="bg-white rounded-xl shadow-xl p-6 w-full max-w-sm space-y-3">
+            <div className="flex justify-between items-center">
+              <h3 className="font-semibold">Edit Shop Details</h3>
+              <button type="button" onClick={() => setShowEdit(false)} className="text-gray-400 hover:text-gray-600 text-xl">×</button>
+            </div>
+            <input placeholder="Shop name" value={shop.businessName}
+              onChange={(e) => setShop({ ...shop, businessName: e.target.value })} required
+              className="w-full border rounded-lg px-3 py-2" />
+            <input placeholder="Shop address" value={shop.address}
+              onChange={(e) => setShop({ ...shop, address: e.target.value })} required
+              className="w-full border rounded-lg px-3 py-2" />
+            {error && <p className="text-red-600 text-sm">{error}</p>}
+            <button type="submit" className="w-full bg-blue-600 text-white rounded-lg py-2 text-sm hover:bg-blue-700">
+              Save
+            </button>
+          </form>
+        </div>
+      )}
     </div>
   );
 }

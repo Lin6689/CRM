@@ -7,6 +7,7 @@ const path = require("path");
 const authRoutes = require("./routes/auth");
 const customerRoutes = require("./routes/customers");
 const productRoutes = require("./routes/products");
+const invoiceRoutes = require("./routes/invoices");
 
 const app = express();
 app.use(cors());
@@ -24,5 +25,6 @@ mongoose
 app.use("/api/auth", authRoutes);
 app.use("/api/customers", customerRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/invoices", invoiceRoutes);
 
 module.exports = app;

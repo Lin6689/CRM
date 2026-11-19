@@ -4,6 +4,7 @@ import Layout from "./components/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Customers from "./components/Customers";
 import Products from "./components/Products";
+import Invoices from "./components/Invoices";
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
           <Route index element={<Navigate to="/customers" />} />
           <Route path="customers" element={<Customers />} />
           <Route path="products" element={<Products />} />
+          <Route path="invoices" element={<Invoices />} />
         </Route>
         <Route path="*" element={<Navigate to="/customers" />} />
       </Routes>

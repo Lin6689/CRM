@@ -63,12 +63,12 @@ export default function Customers() {
       </div>
 
       {showForm && (
-        <form onSubmit={submit} className="bg-white rounded-xl shadow p-4 mb-6 grid grid-cols-1 md:grid-cols-3 gap-3">
-          <input name="name" placeholder="Name *" value={form.name} onChange={set} required className="border rounded-lg px-3 py-2" />
-          <input name="phone" placeholder="Phone *" value={form.phone} onChange={set} required className="border rounded-lg px-3 py-2" />
-          <input name="email" type="email" placeholder="Email" value={form.email} onChange={set} className="border rounded-lg px-3 py-2" />
-          <input name="address" placeholder="Address" value={form.address} onChange={set} className="border rounded-lg px-3 py-2" />
-          <input name="currentBalance" type="number" placeholder="Current Balance" value={form.currentBalance} onChange={set} className="border rounded-lg px-3 py-2" />
+        <form autoComplete="off" onSubmit={submit} className="bg-white rounded-xl shadow p-4 mb-6 grid grid-cols-1 md:grid-cols-3 gap-3">
+          <input autoComplete="off" name="name" placeholder="Name *" value={form.name} onChange={set} required className="border rounded-lg px-3 py-2" />
+          <input autoComplete="off" name="phone" placeholder="Phone *" value={form.phone} onChange={set} required className="border rounded-lg px-3 py-2" />
+          <input autoComplete="off" name="email" type="email" placeholder="Email" value={form.email} onChange={set} className="border rounded-lg px-3 py-2" />
+          <input autoComplete="off" name="address" placeholder="Address" value={form.address} onChange={set} className="border rounded-lg px-3 py-2" />
+          <input autoComplete="off" name="currentBalance" type="number" placeholder="Current Balance" value={form.currentBalance} onChange={set} className="border rounded-lg px-3 py-2" />
           <div className="flex gap-2">
             <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm">{editingId ? "Update" : "Save"}</button>
             <button type="button" onClick={reset} className="bg-gray-200 px-4 py-2 rounded-lg text-sm">Cancel</button>

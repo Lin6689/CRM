@@ -7,7 +7,7 @@ export default function Auth() {
   const navigate = useNavigate();
   const { user, login } = useAuth();
   const [mode, setMode] = useState("login");
-  const [form, setForm] = useState({ name: "", email: "", password: "", businessName: "" });
+  const [form, setForm] = useState({ name: "", email: "", password: "", businessName: "", address: "" });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
@@ -70,20 +70,22 @@ export default function Auth() {
           {isLogin ? "Login to your account" : "Create a new business account"}
         </p>
 
-        <form onSubmit={submit} className="space-y-4">
+        <form autoComplete="off" onSubmit={submit} className="space-y-4">
           {!isLogin && (
             <>
-              <input name="name" placeholder="Your name" value={form.name} onChange={set} required
+              <input autoComplete="off" name="name" placeholder="Your name" value={form.name} onChange={set} required
                 className="w-full border rounded-lg px-3 py-2" />
-              <input name="businessName" placeholder="Business name" value={form.businessName} onChange={set} required
+              <input autoComplete="off" name="businessName" placeholder="Shop name *" value={form.businessName} onChange={set} required
+                className="w-full border rounded-lg px-3 py-2" />
+              <input autoComplete="off" name="address" placeholder="Shop address *" value={form.address} onChange={set} required
                 className="w-full border rounded-lg px-3 py-2" />
             </>
           )}
-          <input name="email" type="email" placeholder="Email" value={form.email} onChange={set} required
+          <input autoComplete="off" name="email" type="email" placeholder="Email" value={form.email} onChange={set} required
             className="w-full border rounded-lg px-3 py-2" />
 
           <div className="relative">
-            <input name="password" type={showPass ? "text" : "password"} placeholder="Password"
+            <input autoComplete="off" name="password" type={showPass ? "text" : "password"} placeholder="Password"
               value={form.password} onChange={set} required minLength={6}
               className="w-full border rounded-lg px-3 py-2 pr-10" />
             <button type="button" onClick={() => setShowPass(!showPass)}

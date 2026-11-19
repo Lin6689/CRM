@@ -78,17 +78,17 @@ export default function Products() {
       </div>
 
       {showForm && (
-        <form onSubmit={submit} className="bg-white rounded-xl shadow p-4 mb-6 grid grid-cols-1 md:grid-cols-3 gap-3">
-          <input name="productName" placeholder="Product Name *" value={form.productName}
+        <form autoComplete="off" onSubmit={submit} className="bg-white rounded-xl shadow p-4 mb-6 grid grid-cols-1 md:grid-cols-3 gap-3">
+          <input autoComplete="off" name="productName" placeholder="Product Name *" value={form.productName}
             onChange={(e) => setForm({ ...form, productName: e.target.value })} required className="border rounded-lg px-3 py-2" />
-          <input name="sku" placeholder="SKU" value={form.sku}
+          <input autoComplete="off" name="sku" placeholder="SKU" value={form.sku}
             onChange={(e) => setForm({ ...form, sku: e.target.value })} className="border rounded-lg px-3 py-2" />
-          <input name="price" type="number" min="0" placeholder="Price (₹) *" value={form.price}
+          <input autoComplete="off" name="price" type="number" min="0" placeholder="Price (₹) *" value={form.price}
             onChange={(e) => setForm({ ...form, price: e.target.value })} required className="border rounded-lg px-3 py-2" />
-          <input name="stockQuantity" type="number" min="0" placeholder="Stock Quantity *" value={form.stockQuantity}
+          <input autoComplete="off" name="stockQuantity" type="number" min="0" placeholder="Stock Quantity *" value={form.stockQuantity}
             onChange={(e) => setForm({ ...form, stockQuantity: e.target.value })} required className="border rounded-lg px-3 py-2" />
           <div>
-            <input type="file" accept="image/*" onChange={pickImage} className="text-sm w-full" />
+            <input autoComplete="off" type="file" accept="image/*" onChange={pickImage} className="text-sm w-full" />
             {preview && <img src={preview} alt="preview" className="mt-2 h-16 w-16 object-cover rounded border" />}
           </div>
           <div className="flex gap-2 items-start">
